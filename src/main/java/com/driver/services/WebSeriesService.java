@@ -8,6 +8,8 @@ import com.driver.repository.WebSeriesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class WebSeriesService {
 
@@ -19,12 +21,29 @@ public class WebSeriesService {
 
     public Integer addWebSeries(WebSeriesEntryDto webSeriesEntryDto)throws  Exception{
 
+            ProductionHouse productionHouse=productionHouseRepository.findById(webSeriesEntryDto.getProductionHouseId()).get();
+            String seriesName= webSeriesEntryDto.getSeriesName();
+            WebSeries findwebSeries=webSeriesRepository.findBySeriesName(seriesName);
+
+        if(findwebSeries!=null){
+            throw new Exception("Series is already present");
+        }
+           WebSeries webSeries=new WebSeries(webSeriesEntryDto.getSeriesName(), webSeriesEntryDto.getAgeLimit(),webSeriesEntryDto.getRating(),webSeriesEntryDto.getSubscriptionType());
+            webSeries.setProductionHouse(productionHouse);
+            double productionRating=(productionHouse.getRatings())*(productionHouse.getWebSeriesList().size());
+            double newRating=(productionRating+webSeriesEntryDto.getRating())/(productionHouse.getWebSeriesList().size()+1);
+
+            productionHouse.setRatings(newRating);
+            productionHouse.getWebSeriesList().add(webSeries);
+
+            webSeriesRepository.save(webSeries);
+
         //Add a webSeries to the database and update the ratings of the productionHouse
         //Incase the seriesName is already present in the Db throw Exception("Series is already present")
         //use function written in Repository Layer for the same
         //Dont forget to save the production and webseries Repo
 
-        return null;
+        return webSeries.getId();
     }
 
 }

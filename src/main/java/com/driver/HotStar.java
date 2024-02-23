@@ -14,3 +14,6 @@ public class HotStar {
 	}
 
 }
+
+
+//subscription i saved child class which hai direct mapping
