@@ -40,7 +40,7 @@ public class SubscriptionService {
             totalAmount=800+(250*noOfScreen);
         }
         else{
-            totalAmount=1000+(300*noOfScreen);
+            totalAmount=1000+(350*noOfScreen);
         }
 
         Subscription subscription=new Subscription(subscriptionType,noOfScreen,date,totalAmount);
@@ -81,7 +81,7 @@ public class SubscriptionService {
         }
         else{
             int noOfScreen=user.getSubscription().getNoOfScreensSubscribed();
-            int priceForElite=1000 + (300*noOfScreen);
+            int priceForElite=1000 + (350*noOfScreen);
             int diff=priceForElite-user.getSubscription().getTotalAmountPaid();
 
             Subscription subscription=user.getSubscription();

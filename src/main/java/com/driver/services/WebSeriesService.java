@@ -25,7 +25,7 @@ public class WebSeriesService {
             String seriesName= webSeriesEntryDto.getSeriesName();
             WebSeries findwebSeries=webSeriesRepository.findBySeriesName(seriesName);
 
-        if(productionHouse.getWebSeriesList().contains(findwebSeries)){
+        if( findwebSeries!=null){
             throw new Exception("Series is already present");
         }
            WebSeries webSeries=new WebSeries(webSeriesEntryDto.getSeriesName(), webSeriesEntryDto.getAgeLimit(),webSeriesEntryDto.getRating(),webSeriesEntryDto.getSubscriptionType());
@@ -38,6 +38,7 @@ public class WebSeriesService {
             webSeries.setProductionHouse(productionHouse);
 
            webSeries= webSeriesRepository.save(webSeries);
+           productionHouseRepository.save(productionHouse);
 
         //Add a webSeries to the database and update the ratings of the productionHouse
         //Incase the seriesName is already present in the Db throw Exception("Series is already present")
