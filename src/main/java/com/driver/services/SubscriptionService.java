@@ -74,6 +74,7 @@ public class SubscriptionService {
             subscription.setSubscriptionType(SubscriptionType.PRO);
             subscription.setTotalAmountPaid(priceForPro);
             user.setSubscription(subscription);
+
             subscriptionRepository.save(subscription);
             return diff;
 

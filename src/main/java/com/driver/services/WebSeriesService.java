@@ -25,18 +25,19 @@ public class WebSeriesService {
             String seriesName= webSeriesEntryDto.getSeriesName();
             WebSeries findwebSeries=webSeriesRepository.findBySeriesName(seriesName);
 
-        if(findwebSeries!=null){
+        if(productionHouse.getWebSeriesList().contains(findwebSeries)){
             throw new Exception("Series is already present");
         }
            WebSeries webSeries=new WebSeries(webSeriesEntryDto.getSeriesName(), webSeriesEntryDto.getAgeLimit(),webSeriesEntryDto.getRating(),webSeriesEntryDto.getSubscriptionType());
-            webSeries.setProductionHouse(productionHouse);
+
             double productionRating=(productionHouse.getRatings())*(productionHouse.getWebSeriesList().size());
             double newRating=(productionRating+webSeriesEntryDto.getRating())/(productionHouse.getWebSeriesList().size()+1);
 
             productionHouse.setRatings(newRating);
             productionHouse.getWebSeriesList().add(webSeries);
+            webSeries.setProductionHouse(productionHouse);
 
-            webSeriesRepository.save(webSeries);
+           webSeries= webSeriesRepository.save(webSeries);
 
         //Add a webSeries to the database and update the ratings of the productionHouse
         //Incase the seriesName is already present in the Db throw Exception("Series is already present")
